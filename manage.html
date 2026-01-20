@@ -76,7 +76,7 @@
             const endTime = new Date();
             endTime.setMinutes(endTime.getMinutes() + (hours * 60));
 
-            const { error } = await supabase.from('chargers').update({
+            const { error } = await supabaseClient.from('chargers').update({
                 status: 'occupied',
                 user_name: name,
                 end_time: endTime.toISOString()
@@ -86,7 +86,7 @@
         }
 
         async function checkOut() {
-            const { error } = await supabase.from('chargers').update({
+            const { error } = await supabaseClient.from('chargers').update({
                 status: 'available',
                 user_name: null,
                 end_time: null

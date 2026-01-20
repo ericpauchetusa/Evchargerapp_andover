@@ -30,10 +30,10 @@
     <script>
         const SUPABASE_URL = 'https://tayqwvrzsbpcjekqilea.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRheXF3dnJ6c2JwY2pla3FpbGVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg5MzA1OTksImV4cCI6MjA4NDUwNjU5OX0.UraEiO2JbgfSyo6kYE-j5MjKNFjKNp2baZOiZ9iO7tI';
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        var supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         async function fetchStations() {
-            const { data: chargers, error } = await supabase
+            const { data: chargers, error } = await supabaseClient
                 .from('chargers')
                 .select('*')
                 .order('id', { ascending: true });
@@ -76,7 +76,7 @@
         }
 
         // Listen for real-time changes
-        supabase.channel('custom-all-channel')
+        supabaseClient.channel('custom-all-channel')
             .on('postgres_changes', { event: '*', schema: 'public', table: 'chargers' }, () => {
                 fetchStations();
             })
